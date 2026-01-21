@@ -1,0 +1,192 @@
+**Project: Professional Point of Sale (POS) Android Application with BLoC Architecture**
+
+**Core Requirements:**
+
+Create a modern, professional POS system for Android using **Flutter** with **BLoC (Business Logic Component)** state management pattern. The app should follow clean architecture principles with separation of concerns and maintainable code structure.
+
+**Technical Architecture:**
+
+- **Framework**: Flutter
+- **State Management**: **BLoC Pattern** (flutter_bloc package)
+- **Architecture**: Clean Architecture with BLoC
+  - Presentation Layer (UI + BLoC)
+  - Domain Layer (Use Cases + Entities)
+  - Data Layer (Repositories + Data Sources)
+- **Database**: SQLite (sqflite package) or Hive for local storage
+- **Dependency Injection**: get_it package
+- **Navigation**: go_router or auto_route
+- **Design**: Material Design 3
+
+**BLoC Implementation Structure:**
+
+1. **Authentication BLoC**
+   - LoginBloc (handle login states)
+   - AuthenticationBloc (manage auth status)
+   - Events: LoginRequested, LogoutRequested
+   - States: AuthInitial, AuthLoading, AuthSuccess, AuthFailure
+
+2. **Cashier BLoC**
+   - CashierBloc (open/close shift management)
+   - Events: OpenShift, CloseShift, FetchShiftData
+   - States: ShiftClosed, ShiftOpen, ShiftLoading, ShiftError
+
+3. **Transaction BLoC**
+   - TransactionBloc (sales operations)
+   - CartBloc (shopping cart management)
+   - Events: AddToCart, RemoveFromCart, ProcessPayment
+   - States: CartEmpty, CartUpdated, PaymentProcessing, PaymentSuccess
+
+4. **Product BLoC**
+   - ProductBloc (product management)
+   - Events: FetchProducts, SearchProduct, UpdateStock
+   - States: ProductsLoading, ProductsLoaded, ProductError
+
+5. **Report BLoC**
+   - ReportBloc (analytics and reports)
+   - Events: GenerateDailyReport, GenerateMonthlyReport, ExportReport
+   - States: ReportLoading, ReportGenerated, ReportError
+
+6. **Settings BLoC**
+   - SettingsBloc (app configuration)
+   - LanguageBloc (multi-language switching)
+   - Events: ChangeLanguage, UpdateInvoiceTemplate
+   - States: LanguageChanged, SettingsUpdated
+
+**Key Features:**
+
+1. **Authentication & User Management**
+   - Two-tier role-based access: Admin and Employee
+   - Secure login with encrypted password storage
+   - Role-specific permissions managed via BLoC
+   - Session management with AuthenticationBloc
+   - Auto-logout on inactivity
+
+2. **Cashier Operations**
+   - Open/Close cashier shift with CashierBloc
+   - Starting balance input when opening shift
+   - Real-time transaction tracking during shift
+   - Automated shift summary (total sales, transactions, cash on hand)
+   - Shift discrepancy alerts
+   - Shift handover notes
+
+3. **Sales & Transactions**
+   - Fast product search with ProductBloc
+   - Barcode scanning integration ready
+   - Real-time cart management with CartBloc
+   - Multiple payment methods (Cash, Card, E-Wallet, QRIS)
+   - Auto-calculate change
+   - Print/share receipt functionality
+   - Transaction history with filters
+   - Hold/resume transactions
+
+4. **Invoice Management**
+   - Customizable invoice templates
+   - Business branding (logo, name, address, NPWP)
+   - Dynamic invoice number generation
+   - Custom footer notes and terms & conditions
+   - Print and digital sharing (PDF, WhatsApp)
+   - Invoice preview before printing
+
+5. **Reporting & Analytics**
+   - Dashboard with real-time metrics
+   - Daily, weekly, monthly sales reports
+   - Best-selling products analysis
+   - Employee performance tracking (sales per employee)
+   - Revenue graphs and charts (using fl_chart)
+   - Profit/loss calculations
+   - Stock alerts (low stock notifications)
+   - Export reports (PDF/Excel)
+   - Filter by date range, product, category, employee
+
+6. **Multi-language Support (i18n)**
+   - Full Indonesian (Bahasa Indonesia) translation
+   - Full English translation
+   - Language switcher in settings (managed by LanguageBloc)
+   - Persistent language preference
+   - RTL support ready
+
+7. **Product Management (Admin Only)**
+   - Add/Edit/Delete products
+   - Category management
+   - Stock management
+   - Pricing and discount configuration
+   - Bulk import products (CSV)
+
+**UI/UX Guidelines:**
+
+- **Material Design 3** with modern aesthetics
+- Clean, minimal interface with bottom navigation
+- Large touch-friendly buttons (minimum 48x48dp)
+- Color-coded actions:
+  - Primary (Blue/Teal): Confirm, Save
+  - Success (Green): Complete transaction
+  - Warning (Orange): Alerts
+  - Danger (Red): Cancel, Delete
+- Quick access floating action buttons
+- Responsive layouts (phone & tablet support)
+- Professional color scheme
+- Smooth animations and transitions with BLoC state changes
+- Loading indicators for async operations
+- Error handling with user-friendly messages
+- Snackbars for feedback
+
+**Package Dependencies:**
+
+```yaml
+dependencies:
+  flutter_bloc: ^8.1.3
+  equatable: ^2.0.5
+  get_it: ^7.6.4
+  sqflite: ^2.3.0
+  intl: ^0.18.1
+  pdf: ^3.10.7
+  fl_chart: ^0.65.0
+  shared_preferences: ^2.2.2
+  go_router: ^12.1.1
+  cached_network_image: ^3.3.0
+```
+
+**BLoC State Flow Example:**
+
+```
+User Action → Event → BLoC → State → UI Update
+Login Button → LoginRequested → AuthBloc → AuthLoading → Show Loading
+                                          → AuthSuccess → Navigate to Dashboard
+                                          → AuthFailure → Show Error Message
+```
+
+**Deliverables:**
+
+- Fully functional Flutter app with BLoC architecture
+- Well-organized folder structure:
+  ```
+  lib/
+  ├── core/
+  ├── data/
+  │   ├── models/
+  │   ├── repositories/
+  │   └── datasources/
+  ├── domain/
+  │   ├── entities/
+  │   ├── repositories/
+  │   └── usecases/
+  ├── presentation/
+  │   ├── bloc/
+  │   ├── pages/
+  │   └── widgets/
+  └── main.dart
+  ```
+- Sample data for testing
+- Demo credentials:
+  - Admin: `admin@pos.com` / `admin123`
+  - Employee: `kasir@pos.com` / `kasir123`
+- Clean, well-commented code
+- README with setup instructions
+
+**Additional Features:**
+
+- Offline-first capability with data sync
+- Backup/restore database functionality
+- Dark mode support
+- Receipt printer integration ready
+- Drawer/cash register integration ready
